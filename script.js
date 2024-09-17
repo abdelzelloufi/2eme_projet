@@ -87,7 +87,7 @@ window.onload = function() {
 
         ctx.font = "bold 15px sans-serif";
         ctx.strokeText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 100);
-        ctx.fillText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 10 0);      
+        ctx.fillText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 100);      
         ctx.restore();
     }
 
