@@ -74,7 +74,7 @@ window.onload = function() {
 
     function gameOver() {
         ctx.save();
-        ctx.font = "bold 70px sans-serif"; // Taille et police du texte
+        ctx.font = "bold 30px sans-serif"; // Taille et police du texte
         ctx.fillStyle = "#000";
         ctx.textAlign = "center"; // Aligne le texte au centre
         ctx.textBaseline = "middle"; // Aligne le texte au milieu verticalement
@@ -82,12 +82,12 @@ window.onload = function() {
         ctx.lineWidth = 5;
         var centreX = canvasWidth / 2;
         var centreY = canvasHeight / 2;
-        ctx.strokeText("Game Over", centreX, centreY - 180);
-        ctx.fillText("Game Over", centreX, centreY - 180);
+        ctx.strokeText("Game Over", centreX, centreY+50);
+        ctx.fillText("Game Over", centreX, centreY+50);
 
-        ctx.font = "bold 30px sans-serif";
-        ctx.strokeText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 120);
-        ctx.fillText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 120);      
+        ctx.font = "bold 15px sans-serif";
+        ctx.strokeText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 100);
+        ctx.fillText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 10 0);      
         ctx.restore();
     }
 
