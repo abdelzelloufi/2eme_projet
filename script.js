@@ -27,6 +27,9 @@ window.onload = function() {
         
         // Ajoute une bordure de 1 pixel autour du canevas
         canvas.style.border = "25px solid gray";
+        canvas.style.margin = "50px auto";
+        canvas.style.display = "block";
+        canvas.style.backgroundColor = "#ddd";
         
         // Ajoute le canevas au corps du document HTML
         document.body.appendChild(canvas);
@@ -90,6 +93,9 @@ window.onload = function() {
     function drawScore()
         {
         ctx.save();
+        ctx.font = "bold 20px sans-serif";
+        ctx.fillStyle = "gray";
+        ctx.textAlign = "center"
         ctx.fillText("Score : "+ score.toString(), canvasWidth/2,canvasHeight/1.8);
         ctx.restore();
         };
