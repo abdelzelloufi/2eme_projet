@@ -49,17 +49,24 @@ window.onload = function() {
             //GAME OVER
         }
         else{
+
+            if{snakee.isEatingApple(applee)}
+            {
+                //LE SERPENT A MANGE LA POMME
+            }
+
+
             // Efface l'ancien contenu du canevas
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         
-        // Dessine le serpent et la pomme sur le canevas
-        snakee.draw();
-        applee.draw();
+            // Dessine le serpent et la pomme sur le canevas
+            snakee.draw();
+            applee.draw();
         
         
         
-        // Répète la fonction après le délai défini
-        setTimeout(refreshCanvas, delay);
+            // Répète la fonction après le délai défini
+            setTimeout(refreshCanvas, delay);
 
         }
         
@@ -143,7 +150,13 @@ window.onload = function() {
             this.isEatingApple(appletoEat)
             {
                 var head=this.body[0];
-                if(head===[0]appletoEat.position[0] && )
+                if(head===[0]appletoEat.position[0] && head===[1]appletoEat.position[1])
+                {
+                    return true;
+                }
+                else{
+                    return false;
+                }
 
             }
 
@@ -195,6 +208,7 @@ window.onload = function() {
             ctx.fill();
             ctx.restore();
         };
+        thi
     }
     
     document.onkeydown = function handleKeyDown(e) {
