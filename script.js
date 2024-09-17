@@ -63,9 +63,10 @@ window.onload = function() {
             ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         
             // Dessine le serpent et la pomme sur le canevas
+            drawScore();
             snakee.draw();
             applee.draw();
-            drawScore();
+            
         
             // Répète la fonction après le délai défini
             setTimeout(refreshCanvas, delay);
@@ -74,12 +75,20 @@ window.onload = function() {
     function gameOver()
     {
         ctx.save();
-        ctx.fillStyle = "black";
-        ctx.font = "10px Arial"; // Taille et police du texte
+        ctx.font = "bold 50px sans-serif"; // Taille et police du texte
+        ctx.fillStyle = "#000";
         ctx.textAlign = "center"; // Aligne le texte au centre
         ctx.textBaseline = "middle"; // Aligne le texte au milieu verticalement
-        ctx.fillText("Game Over", canvasWidth / 2, canvasHeight / 2);
-        ctx.fillText("Appuyer sur la touche Espace pour rejouer",canvasWidth / 2, canvasHeight / 1.5);       
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 5;
+        var centreX = canvasWidth / 2;
+        var centreY= canvasHeight / 2;
+        ctx.strokeText("Game Over", centreX, centreY+50 );
+        ctx.fillText("Game Over", centreX, centreY+50 );
+
+        ctx.font = "bold 15px sans-serif";
+        ctx.strokeText("Appuyer sur la touche Espace pour rejouer",centreX, centreY -100);
+        ctx.fillText("Appuyer sur la touche Espace pour rejouer",centreX, centreY -100);      
         ctx.restore();
     };
     function restart()
@@ -93,10 +102,10 @@ window.onload = function() {
     function drawScore()
         {
         ctx.save();
-        ctx.font = "bold 20px sans-serif";
+        ctx.font = "bold 100px sans-serif";
         ctx.fillStyle = "gray";
         ctx.textAlign = "center"
-        ctx.fillText("Score : "+ score.toString(), canvasWidth/2,canvasHeight/1.8);
+        ctx.fillText(score.toString(), canvasWidth/2,canvasHeight/1.8);
         ctx.restore();
         };
     
