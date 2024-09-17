@@ -26,7 +26,7 @@ window.onload = function() {
         canvas.height = canvasHeight;
         
         // Ajoute une bordure de 1 pixel autour du canevas
-        canvas.style.border = "1px solid";
+        canvas.style.border = "25px solid gray";
         
         // Ajoute le canevas au corps du document HTML
         document.body.appendChild(canvas);
