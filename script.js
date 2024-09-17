@@ -45,9 +45,10 @@ window.onload = function() {
         // Avance le serpent (déplace-le) pour la prochaine itération
         snakee.advance();
         if(snakee.checkCollision()) {
-            // GAME OVER
+            gameOver();
         } else {
             if(snakee.isEatingApple(applee)) {
+                snakee.ateApple = true;
                 do {
                     applee.setNewPosition();
                 } while(applee.isOnSnake(snakee));
@@ -64,6 +65,22 @@ window.onload = function() {
             setTimeout(refreshCanvas, delay);
         }
     }
+    function gameOver()
+    {
+        ctx.save();
+        ctx.fillText("Game Over", canvasWidth / 2, canvasHeight / 2);
+        ctx.fillText("Appuyer sur la touche Espace pour rejouer",canvasWidth / 2, canvasHeight / 1.5);       
+        ctx.restore();
+    }
+    function restart()
+        {
+        snakee = new Snake([[6, 4], [5, 4], [4, 4],[3,4],[2,4]], "right");
+        applee = new Apple([1, 1]); // Crée une pomme à la position (1,1)
+        
+        // Lance la boucle de rafraîchissement du canevas
+        refreshCanvas();
+        }
+    
 
     function drawBlock(ctx, position) {
         // Calcule la position en pixels sur le canevas
@@ -78,7 +95,7 @@ window.onload = function() {
         // Propriétés du serpent
         this.body = body;
         this.direction = direction;
-
+        this.ateApple = false;
         // Méthode pour dessiner le serpent
         this.draw = function() {
             ctx.save();         // Sauvegarde l'état actuel du contexte
@@ -117,9 +134,15 @@ window.onload = function() {
 
             // Ajoute le nouveau segment au début du corps du serpent
             this.body.unshift(nextPosition);
+            if(this.ateApple){
+
+                this.ateApple = false;
             
-            // Enlève le dernier segment du corps du serpent (pour le déplacement)
-            this.body.pop();
+            }
+            else{
+                // Enlève le dernier segment du corps du serpent (pour le déplacement)
+                this.body.pop();
+            }
         };
 
         // Méthode pour changer la direction du serpent
@@ -228,6 +251,10 @@ window.onload = function() {
             case 40:
                 newDirection = "down";
                 break;
+            case 32:
+                restart();
+                return;
+                
             default:
                 return;
         }
