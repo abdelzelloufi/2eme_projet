@@ -8,8 +8,9 @@ window.onload = function() {
     var delay = 100;        // Délai entre chaque rafraîchissement
     var snakee;             // Instance du serpent
     var applee; 
-    var heightInBlocks = canvasHeight/blockSize ;         // Instance de la pomme
+    var heightInBlocks = canvasHeight/blockSize;         // Instance de la pomme
     var WidthInBlocks = canvasWidth/blockSize;
+
     // Fonction d'initialisation appelée lorsque la page est chargée
     init();  
     
@@ -41,20 +42,16 @@ window.onload = function() {
     }
    
     function refreshCanvas() {
-
         // Avance le serpent (déplace-le) pour la prochaine itération
         snakee.advance();
-        if(snakee.checkCollision())
-        {
-            //GAME OVER
-        }
-        else{
-
-            if{snakee.isEatingApple(applee)}
-            {
-                //LE SERPENT A MANGE LA POMME
+        if(snakee.checkCollision()) {
+            // GAME OVER
+        } else {
+            if(snakee.isEatingApple(applee)) {
+                do {
+                    applee.setNewPosition();
+                } while(applee.isOnSnake(snakee));
             }
-
 
             // Efface l'ancien contenu du canevas
             ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -63,13 +60,9 @@ window.onload = function() {
             snakee.draw();
             applee.draw();
         
-        
-        
             // Répète la fonction après le délai défini
             setTimeout(refreshCanvas, delay);
-
         }
-        
     }
 
     function drawBlock(ctx, position) {
@@ -147,22 +140,18 @@ window.onload = function() {
             if (allowedDirections.indexOf(newDirection) > -1) {
                 this.direction = newDirection;
             }
-            this.isEatingApple(appletoEat)
-            {
-                var head=this.body[0];
-                if(head===[0]appletoEat.position[0] && head===[1]appletoEat.position[1])
-                {
-                    return true;
-                }
-                else{
-                    return false;
-                }
-
-            }
-
         };
-        this.checkCollision= function()
-        {
+
+        this.isEatingApple = function(appletoEat) {
+            var head = this.body[0];
+            if (head[0] === appletoEat.position[0] && head[1] === appletoEat.position[1]) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        this.checkCollision = function() {
             var wallCollision = false;
             var snakeCollision = false;
             var head = this.body[0];
@@ -171,19 +160,16 @@ window.onload = function() {
             var snakeY = head[1];
             var minX = 0;
             var minY = 0;
-            var maxX = WidthInBlocks-1;
-            var maxY = heightInBlocks-1;
+            var maxX = WidthInBlocks - 1;
+            var maxY = heightInBlocks - 1;
             var isNotBetweenHorizontalWalls = snakeX < minX || snakeX > maxX;
             var isNotBetweenVerticalWalls = snakeY < minY || snakeY > maxY;
 
-            if(isNotBetweenHorizontalWalls || isNotBetweenVerticalWalls)
-            {
-                wallCollision=true;
+            if (isNotBetweenHorizontalWalls || isNotBetweenVerticalWalls) {
+                wallCollision = true;
             }
-            for(var i =0; i<rest.length;i++)
-            {
-                if(snakeX === rest[i][0] && snakeY === rest[i][1])
-                {
+            for (var i = 0; i < rest.length; i++) {
+                if (snakeX === rest[i][0] && snakeY === rest[i][1]) {
                     snakeCollision = true;
                 }
             }
@@ -208,13 +194,28 @@ window.onload = function() {
             ctx.fill();
             ctx.restore();
         };
-        thi
+
+        this.setNewPosition = function() {
+            var newX = Math.round(Math.random() * (WidthInBlocks - 1));
+            var newY = Math.round(Math.random() * (heightInBlocks - 1));
+            this.position = [newX, newY];
+        };
+
+        this.isOnSnake = function(snakeToCheck) {
+            var isOnSnake = false;
+            for (var i = 0; i < snakeToCheck.body.length; i++) {
+                if (this.position[0] === snakeToCheck.body[i][0] && this.position[1] === snakeToCheck.body[i][1]) {
+                    isOnSnake = true;
+                }
+            }
+            return isOnSnake;
+        };
     }
     
     document.onkeydown = function handleKeyDown(e) {
         var key = e.keyCode;
         var newDirection;
-        switch(key) {
+        switch (key) {
             case 37:
                 newDirection = "left";
                 break;
@@ -232,4 +233,4 @@ window.onload = function() {
         }
         snakee.setDirection(newDirection);
     }
-};
+}
