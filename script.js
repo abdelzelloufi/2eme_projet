@@ -7,10 +7,10 @@ window.onload = function() {
     var ctx;                // Contexte de dessin du canevas
     var delay = 100;        // Délai entre chaque rafraîchissement
     var snakee;             // Instance du serpent
-    var applee; 
-    var score;
-    var heightInBlocks = canvasHeight/blockSize;         // Instance de la pomme
-    var WidthInBlocks = canvasWidth/blockSize;
+    var applee;             // Instance de la pomme
+    var score;              // Score du joueur
+    var heightInBlocks = canvasHeight / blockSize;  // Hauteur en blocs
+    var WidthInBlocks = canvasWidth / blockSize;    // Largeur en blocs
 
     // Fonction d'initialisation appelée lorsque la page est chargée
     init();  
@@ -38,9 +38,9 @@ window.onload = function() {
         ctx = canvas.getContext('2d');
         
         // Crée une instance du serpent avec une position initiale et une direction initiale
-        snakee = new Snake([[6, 4], [5, 4], [4, 4],[3,4],[2,4]], "right");
+        snakee = new Snake([[6, 4], [5, 4], [4, 4], [3, 4], [2, 4]], "right");
         applee = new Apple([1, 1]); // Crée une pomme à la position (1,1)
-        score=0;
+        score = 0;
         // Lance la boucle de rafraîchissement du canevas
         refreshCanvas();
     }
@@ -48,15 +48,15 @@ window.onload = function() {
     function refreshCanvas() {
         // Avance le serpent (déplace-le) pour la prochaine itération
         snakee.advance();
-        if(snakee.checkCollision()) {
-            gameOver();
+        if (snakee.checkCollision()) {
+            gameOver(); // Appelle la fonction de fin de jeu si collision
         } else {
-            if(snakee.isEatingApple(applee)) {
-                score++
+            if (snakee.isEatingApple(applee)) {
+                score++; // Augmente le score
                 snakee.ateApple = true;
                 do {
-                    applee.setNewPosition();
-                } while(applee.isOnSnake(snakee));
+                    applee.setNewPosition(); // Réinitialise la position de la pomme
+                } while (applee.isOnSnake(snakee)); // Assure que la pomme n'est pas sur le serpent
             }
 
             // Efface l'ancien contenu du canevas
@@ -66,49 +66,48 @@ window.onload = function() {
             drawScore();
             snakee.draw();
             applee.draw();
-            
         
             // Répète la fonction après le délai défini
             setTimeout(refreshCanvas, delay);
         }
     }
-    function gameOver()
-    {
+
+    function gameOver() {
         ctx.save();
-        ctx.font = "bold 50px sans-serif"; // Taille et police du texte
+        ctx.font = "bold 70px sans-serif"; // Taille et police du texte
         ctx.fillStyle = "#000";
         ctx.textAlign = "center"; // Aligne le texte au centre
         ctx.textBaseline = "middle"; // Aligne le texte au milieu verticalement
         ctx.strokeStyle = "white";
         ctx.lineWidth = 5;
         var centreX = canvasWidth / 2;
-        var centreY= canvasHeight / 2;
-        ctx.strokeText("Game Over", centreX, centreY+50 );
-        ctx.fillText("Game Over", centreX, centreY+50 );
+        var centreY = canvasHeight / 2;
+        ctx.strokeText("Game Over", centreX, centreY - 180);
+        ctx.fillText("Game Over", centreX, centreY - 180);
 
-        ctx.font = "bold 15px sans-serif";
-        ctx.strokeText("Appuyer sur la touche Espace pour rejouer",centreX, centreY -100);
-        ctx.fillText("Appuyer sur la touche Espace pour rejouer",centreX, centreY -100);      
+        ctx.font = "bold 30px sans-serif";
+        ctx.strokeText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 120);
+        ctx.fillText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 120);      
         ctx.restore();
-    };
-    function restart()
-        {
-        snakee = new Snake([[6, 4], [5, 4], [4, 4],[3,4],[2,4]], "right");
+    }
+
+    function restart() {
+        // Réinitialise le serpent et la pomme pour redémarrer le jeu
+        snakee = new Snake([[6, 4], [5, 4], [4, 4], [3, 4], [2, 4]], "right");
         applee = new Apple([1, 1]); // Crée une pomme à la position (1,1)
-        score=0;
+        score = 0;
         // Lance la boucle de rafraîchissement du canevas
         refreshCanvas();
-        };
-    function drawScore()
-        {
+    }
+
+    function drawScore() {
         ctx.save();
         ctx.font = "bold 100px sans-serif";
         ctx.fillStyle = "gray";
-        ctx.textAlign = "center"
-        ctx.fillText(score.toString(), canvasWidth/2,canvasHeight/1.8);
+        ctx.textAlign = "center";
+        ctx.fillText(score.toString(), canvasWidth / 2, canvasHeight / 1.8);
         ctx.restore();
-        };
-    
+    }
 
     function drawBlock(ctx, position) {
         // Calcule la position en pixels sur le canevas
@@ -124,6 +123,7 @@ window.onload = function() {
         this.body = body;
         this.direction = direction;
         this.ateApple = false;
+
         // Méthode pour dessiner le serpent
         this.draw = function() {
             ctx.save();         // Sauvegarde l'état actuel du contexte
@@ -143,7 +143,7 @@ window.onload = function() {
             var nextPosition = this.body[0].slice();
             
             // Déplace le serpent en fonction de la direction actuelle
-            switch(this.direction) {
+            switch (this.direction) {
                 case "left":
                     nextPosition[0]--;
                     break;
@@ -162,12 +162,9 @@ window.onload = function() {
 
             // Ajoute le nouveau segment au début du corps du serpent
             this.body.unshift(nextPosition);
-            if(this.ateApple){
-
+            if (this.ateApple) {
                 this.ateApple = false;
-            
-            }
-            else{
+            } else {
                 // Enlève le dernier segment du corps du serpent (pour le déplacement)
                 this.body.pop();
             }
@@ -176,7 +173,7 @@ window.onload = function() {
         // Méthode pour changer la direction du serpent
         this.setDirection = function(newDirection) {
             var allowedDirections;
-            switch(this.direction) {
+            switch (this.direction) {
                 case "left":
                 case "right":
                     allowedDirections = ["up", "down"];
@@ -280,12 +277,12 @@ window.onload = function() {
                 newDirection = "down";
                 break;
             case 32:
-                restart();
+                restart(); // Redémarre le jeu si la touche espace est pressée
                 return;
                 
             default:
                 return;
         }
-        snakee.setDirection(newDirection);
+        snakee.setDirection(newDirection); // Change la direction du serpent
     }
 }
