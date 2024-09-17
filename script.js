@@ -8,6 +8,7 @@ window.onload = function() {
     var delay = 100;        // Délai entre chaque rafraîchissement
     var snakee;             // Instance du serpent
     var applee; 
+    var score;
     var heightInBlocks = canvasHeight/blockSize;         // Instance de la pomme
     var WidthInBlocks = canvasWidth/blockSize;
 
@@ -36,7 +37,7 @@ window.onload = function() {
         // Crée une instance du serpent avec une position initiale et une direction initiale
         snakee = new Snake([[6, 4], [5, 4], [4, 4],[3,4],[2,4]], "right");
         applee = new Apple([1, 1]); // Crée une pomme à la position (1,1)
-        
+        score=0;
         // Lance la boucle de rafraîchissement du canevas
         refreshCanvas();
     }
@@ -48,6 +49,7 @@ window.onload = function() {
             gameOver();
         } else {
             if(snakee.isEatingApple(applee)) {
+                score++
                 snakee.ateApple = true;
                 do {
                     applee.setNewPosition();
@@ -60,6 +62,7 @@ window.onload = function() {
             // Dessine le serpent et la pomme sur le canevas
             snakee.draw();
             applee.draw();
+            drawScore();
         
             // Répète la fonction après le délai défini
             setTimeout(refreshCanvas, delay);
@@ -68,18 +71,28 @@ window.onload = function() {
     function gameOver()
     {
         ctx.save();
+        ctx.fillStyle = "black";
+        ctx.font = "10px Arial"; // Taille et police du texte
+        ctx.textAlign = "center"; // Aligne le texte au centre
+        ctx.textBaseline = "middle"; // Aligne le texte au milieu verticalement
         ctx.fillText("Game Over", canvasWidth / 2, canvasHeight / 2);
         ctx.fillText("Appuyer sur la touche Espace pour rejouer",canvasWidth / 2, canvasHeight / 1.5);       
         ctx.restore();
-    }
+    };
     function restart()
         {
         snakee = new Snake([[6, 4], [5, 4], [4, 4],[3,4],[2,4]], "right");
         applee = new Apple([1, 1]); // Crée une pomme à la position (1,1)
-        
+        score=0;
         // Lance la boucle de rafraîchissement du canevas
         refreshCanvas();
-        }
+        };
+    function drawScore()
+        {
+        ctx.save();
+        ctx.fillText("Score : "+ score.toString(), canvasWidth/2,canvasHeight/1.8);
+        ctx.restore();
+        };
     
 
     function drawBlock(ctx, position) {
